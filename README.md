@@ -1,8 +1,33 @@
 # Types as Specifications: An Introduction to Type-Level Programming in Haskell
 
-## Author: Thomas Dietert
+### Author: Thomas Dietert
+### Hop Workshop (2hr)
+### Lambda Conf 2019
+### Boulder, CO
 
-## Description
+## Build
+
+This project uses the [`stack`](https://docs.haskellstack.org/en/stable/README/) 
+haskell build tool. To build the code, run the following command in the top 
+level directory of the project:
+
+```
+$ stack build
+```
+
+To run the tests:
+
+```
+$ stack test
+```
+
+And to enter ghci:
+
+```
+$ stack ghci
+```
+
+## Workshop Description
 
 Haskell is known for being a pure, statically typed functional programming 
 language that, if used correctly, allows you to write more correct software. 
@@ -54,8 +79,9 @@ Type-level Programming
 - Correct by Construction
 
 [[ Exercises ]]
-- Type-level Natural Number Multiplication
 - Type-level Booleans & Boolean Operators 
+- Type-level Natural Number Addition
+- Type-level Natural Number Multiplication
 - Type-safe List Indexing
 - Type-level List operations
 

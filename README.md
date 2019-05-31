@@ -65,38 +65,61 @@ Haskell language extensions, then you should attend this talk!
 Introduction
 ------------
 - Types as specifications
-- Values, types, & kinds
-- Type-level functions
-- Value & Type Promotion
+-----
+- Values, Types, & Kinds
 - Phantom Types (Tagging)
+  - Proxy
+  - Lock value (Config?)
+- GADTs
+  - data Expr
+-----
+- Value & Type Promotion
+  - DataKinds
+- Polymorphic Kinds
+  - KindSignatures
+  - PolyKinds
+-----
+- Type-level functions
+  - TypeFamilies
+  - TypeOperators
+- Higher order Type-families
+  - Type-level map 
 
 Type-level Programming
 ----------------------
+- Type-level Booleans 
 - Type-level Naturals (Peano Encoding)
 - Type-level Lists & Heterogenous Lists
 - Type Operators 
 - Constraint Kinds
 - Correct by Construction
 
-[[ Exercises ]]
-- Type-level Booleans & Boolean Operators 
-- Type-level Natural Number Addition
-- Type-level Natural Number Multiplication
-- Type-safe List Indexing
-- Type-level List operations
+[[ Exercises P1 ]]
+P1.A Type-level Boolean Operations
+  P1.A1 Type level AND
+  P1.A2 Type level If-then-else
+P1.B Type-level Natural Number Operations 
+  P1.B1 Type level Multiplication
+  P1.B2 Type level Exponential
+P1.D Type-level List Operations
+  P1.C1 head & tail
+  P1.C2 filter 
+  P1.C3 append (hard) 
+  P1.C3 concatenate (hard) 
 
 Type-level Defunctionalization
 ------------------------------
 - Value-level Defunctionalization
 - Higher-order type families (`data Eval` & `type Exp`)
+- Type-family evaluation semantics (Strict vs Lazy)
 - Type-family composition (Type-level monads)
 
-[[ Exercises ]]
-- Type-level Natural Number Multiplication
+[[ Exercises B ]]
 - Type-level Booleans & Boolean Operators 
+- Type-level Natural Number Multiplication
 - Type-safe List Indexing
 - Type-level List operations
-
+u
 Type-level State Machines
 -------------------------
 - Encoding states and transitions as types
@@ -104,7 +127,16 @@ Type-level State Machines
 - Indexed Monads
 - Type-level state machine
 
+[[ Exercises C ]]
+- Write the function code 
+
 Resources
 ---------
+- GHC User Guide
+- `base`
+  - GHC.TypeLits 
+  - GHC.TypeNats
 - `row-types` library documentation
+- [Basic Type Level Programming](https://www.parsonsmatt.org/2017/04/26/basic_type_level_programming_in_haskell.html)
+  - Matt Parsons 
 

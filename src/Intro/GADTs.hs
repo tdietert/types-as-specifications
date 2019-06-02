@@ -127,7 +127,7 @@ data GExpr a where
   GLit :: GLit a -> GExpr a
   GAdd :: GExpr Int -> GExpr Int -> GExpr Int
   GAnd :: GExpr Bool -> GExpr Bool -> GExpr Bool
-  GEq :: GExpr a -> GExpr a -> GExpr Bool
+  GEq :: Eq a => GExpr a -> GExpr a -> GExpr Bool
   GIf :: GExpr Bool -> GExpr a -> GExpr a -> GExpr a
 
 gexpr_Example_1 :: GExpr Int
@@ -146,7 +146,6 @@ gexpr_Example_1 =
 --       then (7 + 2)
 --       else (1 == 1)
 --
---
 ----------------------------------------
 gexpr_Exercise_2a :: GExpr a
 gexpr_Exercise_2a = undefined
@@ -163,6 +162,8 @@ gexpr_Exercise_2a = undefined
 --
 --   - How should we change the GEq
 --     constructor to make this compile?
+--     [Hint]: The compiler may tell you
+--     what to do!
 --
 --   - How many ways can we implement
 --     the body of this function?
@@ -176,7 +177,10 @@ geval :: GExpr a -> a
 geval gexpr =
   case gexpr of
     GLit glit   -> gevalLit glit
-    GAdd e1 e2  -> undefined
-    GAnd e1 e2  -> undefined
-    GEq e1 e2   -> undefined
-    GIf c e1 e2 -> undefined
+    GAdd e1 e2  -> geval e1 + geval e2
+    GAnd e1 e2  -> geval e1 && geval e2
+    GEq e1 e2   -> geval e1 == geval e2
+    GIf c e1 e2 ->
+      if geval c
+        then geval e1
+        else geval e2

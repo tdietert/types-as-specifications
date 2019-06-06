@@ -3,7 +3,7 @@
 {-# LANGUAGE DataKinds #-}
 {-# LANGUAGE PolyKinds #-}
 
-module PartialTypeFamilyApply where
+module Playground.PartialTypeFamilyApply where
 
 data DConst a b = DConst a
 

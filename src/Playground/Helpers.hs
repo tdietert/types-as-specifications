@@ -7,7 +7,7 @@
 {-# LANGUAGE TypeOperators        #-}
 {-# LANGUAGE UndecidableInstances #-}
 
-module Helpers where
+module Playground.Helpers where
 
 import           Prelude            hiding (Bool(..))
 import           GHC.TypeLits       (ErrorMessage (..), TypeError)

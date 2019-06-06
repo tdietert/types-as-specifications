@@ -10,7 +10,7 @@
 {-# LANGUAGE GADTs #-}
 {-# LANGUAGE UndecidableInstances#-}
 
-module StateMachine where
+module Playground.StateMachine where
 
 import Control.Monad.Indexed
 import Control.Monad.Indexed.State

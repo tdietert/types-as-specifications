@@ -9,7 +9,7 @@
 {-# LANGUAGE RankNTypes #-}
 {-# LANGUAGE TypeApplications #-}
 
-module TypeFamilies where
+module Playground.TypeFamilies where
 
 {-
 

@@ -4,7 +4,7 @@
 {-# LANGUAGE KindSignatures    #-}
 {-# LANGUAGE TypeFamilies      #-}
 
-module Typelevel.Maybe where
+module Playground.Maybe where
 
 import Data.Bool
 

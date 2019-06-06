@@ -1,7 +1,7 @@
 {-# LANGUAGE GADTs #-}
 {-# LANGUAGE MultiParamTypeClasses #-}
 
-module Intro.GADTs where
+module Typelevel.Solutions.Intro.GADTs where
 
 data Kilometers
 data Miles

@@ -1,6 +1,6 @@
 {-# LANGUAGE MultiParamTypeClasses #-}
 
-module Intro.Phantom where
+module Typelevel.Exercises.Intro.Phantom where
 
 ----------------------------------------
 -- Phantom Types: Motivation

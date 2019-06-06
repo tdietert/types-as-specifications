@@ -40,12 +40,18 @@ type (||) a b = Or a b
 ----------------------------------------
 type family And a b where
 
+
 -- | Type synonym using type operators
 --
 -- First type operator defined:
 --   type (&&) = TAnd
 --   ^ This can't work because type families must be fully applied
 type (&&) a b = And a b
+
+testAnd1 = Refl :: And 'True 'True   :~: 'True
+testAnd2 = Refl :: And 'False 'True  :~: 'False
+testAnd3 = Refl :: And 'True 'False  :~: 'False
+testAnd4 = Refl :: And 'False 'False :~: 'False
 
 ----------------------------------------
 -- Exercise 2

@@ -17,6 +17,21 @@ import Typelevel.Basics hiding (Nat)
 ----------------------------------------
 -- Exercise 1
 --
+--   Implement the nappend function for length indexed lists
+----------------------------------------
+
+data NList (n :: Nat) (a :: *) where
+  NNil :: NList 'Zero a
+  NCons :: a -> NList n a -> NList ('Succ n) a
+
+-- | Note: You might not be able to do this, depending on how
+-- you defined your 'Add' typeclass
+nappend :: NList n a -> NList m a -> NList (Add n m) a
+nappend = undefined
+
+----------------------------------------
+-- Exercise 2
+--
 --   Implement the Append type family for type-level lists
 ----------------------------------------
 

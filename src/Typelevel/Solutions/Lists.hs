@@ -9,13 +9,40 @@
 module Typelevel.Solutions.Lists where
 
 import Data.Kind (Type, Constraint)
+import Data.Type.Bool
 import Data.Type.Equality ((:~:) (..))
-import GHC.TypeNats
-import Prelude hiding (Bool(..))
-import Typelevel.Basics hiding (Nat)
+import Prelude hiding (Bool)
+import Typelevel.Solutions.Basics
 
 ----------------------------------------
 -- Exercise 1
+--
+--   Implement the Append type family for length indexed lists
+----------------------------------------
+
+data NList (n :: Nat) (a :: *) where
+  NNil :: NList 'Zero a
+  NCons :: a -> NList n a -> NList ('Succ n) a
+
+data SNat (n :: Nat) where
+  SZero :: SNat 'Zero
+  SSucc :: SNat n -> SNat ('Succ n)
+
+nappendLemma :: SNat n -> SNat m -> Add n ('Succ m) :~: 'Succ (Add n m)
+nappendLemma SZero     _ = Refl
+nappendLemma (SSucc n) m =
+  case nappendLemma n m of
+    Refl -> Refl
+
+nappend :: NList n a -> NList m a -> NList (Add n m) a
+nappend NNil m = m
+nappend n NNil = n
+nappend (NCons a rest) m =
+  case nappendLemma  of
+    Refl -> NCons a (nappend rest m)
+
+----------------------------------------
+-- Exercise 2
 --
 --   Implement the Append type family for type-level lists
 ----------------------------------------
@@ -52,7 +79,7 @@ data HList (a :: [*]) where
   HCons :: x -> HList xs -> HList (x ': xs)
 
 ----------------------------------------
--- Exercise 2
+-- Exercise 3
 --
 --   Implement a 'Show' instance for the HList datatype
 ----------------------------------------
@@ -63,7 +90,7 @@ instance (Show x, Show (HList xs)) => Show (HList (x ': xs)) where
   show (HCons x xs) = show x ++ " .:. " ++ show (xs)
 
 ----------------------------------------
--- Exercise 3
+-- Exercise 4
 --
 --   Type-level head & tail of heterogenous list
 --
@@ -83,7 +110,7 @@ type family All (c :: k -> Constraint) (xs :: [k]) :: Constraint where
   All c (x ': xs) = (c x, All c xs)
 
 ----------------------------------------
--- Exercise 4
+-- Exercise 5
 --
 --   Re-implement the `Show` instance for HLists making use of the 'All' type
 --   family.
@@ -111,7 +138,7 @@ appendLemma1 :: HList xs -> HList '[] -> HList (Append xs '[]) :~: HList xs
 appendLemma1 _ _ = Refl
 
 appendLemma2 :: HList (x ': xs) -> HList ys -> HList (x ': Append xs ys) :~: HList (Append (x ': xs) ys)
-appendLemma2 h1@(HCons x xs) HNil         = appendLemma2 h1 HNil
+appendLemma2 h1@(HCons x xs) HNil         = appendLemma1 h1 HNil
 appendLemma2 h1@(HCons x xs) (HCons y ys) = Refl -- here we trivially assert equality: "trust me, GHC"
 
 happend :: HList xs -> HList ys -> HList (Append xs ys)

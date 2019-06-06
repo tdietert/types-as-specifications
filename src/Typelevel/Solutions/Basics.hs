@@ -7,7 +7,7 @@
 {-# LANGUAGE TypeOperators         #-}
 {-# LANGUAGE UndecidableInstances  #-}
 
-module Typelevel.Basics where
+module Typelevel.Solutions.Basics where
 
 import           Data.Kind          (Type, Constraint)
 import           Data.List          ((++))

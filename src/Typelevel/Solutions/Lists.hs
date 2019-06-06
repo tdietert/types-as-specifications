@@ -24,22 +24,23 @@ data NList (n :: Nat) (a :: *) where
   NNil :: NList 'Zero a
   NCons :: a -> NList n a -> NList ('Succ n) a
 
-data SNat (n :: Nat) where
-  SZero :: SNat 'Zero
-  SSucc :: SNat n -> SNat ('Succ n)
-
-nappendLemma :: SNat n -> SNat m -> Add n ('Succ m) :~: 'Succ (Add n m)
-nappendLemma SZero     _ = Refl
-nappendLemma (SSucc n) m =
-  case nappendLemma n m of
-    Refl -> Refl
-
 nappend :: NList n a -> NList m a -> NList (Add n m) a
-nappend NNil m = m
-nappend n NNil = n
-nappend (NCons a rest) m =
-  case nappendLemma  of
+nappend NNil m = case nappendLemma1 NNil m of Refl -> m
+nappend n@(NCons a rest) m =
+  case nappendLemma2 n m of
     Refl -> NCons a (nappend rest m)
+
+nappendLemma1 :: NList 'Zero a -> NList m a -> NList (Add 'Zero m) a :~: NList m a
+nappendLemma1 NNil m = Refl
+
+nappendLemma2
+  :: NList ('Succ n) a
+  -> NList m a
+  -> NList ('Succ (Add n m)) a :~: NList (Add n ('Succ m)) a
+nappendLemma2 (NCons _ rest) m =
+  case rest of
+    NNil -> case nappendLemma1 rest m of Refl -> Refl
+    NCons _ _ -> case nappendLemma2 rest m of Refl -> Refl
 
 ----------------------------------------
 -- Exercise 2
@@ -134,18 +135,18 @@ instance {-# OVERLAPPABLE #-} All Show xs => Show (HList xs) where
 --     - Fix the instance!
 ----------------------------------------
 
-appendLemma1 :: HList xs -> HList '[] -> HList (Append xs '[]) :~: HList xs
-appendLemma1 _ _ = Refl
+happendLemma1 :: HList xs -> HList '[] -> HList (Append xs '[]) :~: HList xs
+happendLemma1 _ _ = Refl
 
-appendLemma2 :: HList (x ': xs) -> HList ys -> HList (x ': Append xs ys) :~: HList (Append (x ': xs) ys)
-appendLemma2 h1@(HCons x xs) HNil         = appendLemma1 h1 HNil
-appendLemma2 h1@(HCons x xs) (HCons y ys) = Refl -- here we trivially assert equality: "trust me, GHC"
+happendLemma2 :: HList (x ': xs) -> HList ys -> HList (x ': Append xs ys) :~: HList (Append (x ': xs) ys)
+happendLemma2 h1@(HCons x xs) HNil         = happendLemma1 h1 HNil
+happendLemma2 h1@(HCons x xs) (HCons y ys) = Refl -- here we trivially assert equality: "trust me, GHC"
 
 happend :: HList xs -> HList ys -> HList (Append xs ys)
 happend HNil ys         = ys
 happend xs HNil         = xs
 happend h1@(HCons x xs) h2 =
-  case appendLemma2 h1 h2 of
+  case happendLemma2 h1 h2 of
     Refl -> HCons x (happend xs h2)
 
 ----------------------------------------

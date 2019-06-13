@@ -95,17 +95,17 @@ Type-level Programming
 - Correct by Construction
 
 [[ Exercises P1 ]]
-P1.A Type-level Boolean Operations
-  P1.A1 Type level AND
-  P1.A2 Type level If-then-else
-P1.B Type-level Natural Number Operations 
-  P1.B1 Type level Multiplication
-  P1.B2 Type level Exponential
-P1.D Type-level List Operations
-  P1.C1 head & tail
-  P1.C2 filter 
-  P1.C3 append (hard) 
-  P1.C3 concatenate (hard) 
+- Type-level Boolean Operations
+  - Type level AND
+  - Type level If-then-else
+- Type-level Natural Number Operations 
+  - Type level Multiplication
+  - Type level Exponential
+- Type-level List Operations
+  - head & tail
+  - filter 
+  - append (hard) 
+  - concatenate (hard) 
 
 Type-level Defunctionalization
 ------------------------------

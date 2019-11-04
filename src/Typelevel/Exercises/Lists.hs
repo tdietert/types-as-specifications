@@ -28,39 +28,23 @@ data NList (n :: Nat) (a :: *) where
 -- Note: You will have to modify the type signature
 nappend :: NList n a -> NList m a -> NList (Add n m) a
 nappend NNil l = l
---nappend m@(NCons a t) l = NCons a (nappend t l)
+nappend m@(NCons a t) l = NCons a (nappend t l)
 
 
---mappendLemma0
---    :: NList 'Zero a
---    -> NList m a
---    -> NList (Add 'Zero m) a :~: NList m a
---mappendLemma0 NNil m = Refl
---
---mappendLemma
---    :: NList ('Succ n) a
---    -> NList m a
---    -> NList (Add ('Succ n) m) a :~: NList ('Succ (Add n m)) a
---mappendLemma (NCons _ rest) l = case rest of
---  NNil      -> case mappendLemma0 rest l of Refl -> Refl
---  NCons _ _ -> case mappendLemma  rest l of Refl -> Refl
---
---
---symm :: a :~: b -> b :~: a
---symm Refl = Refl
+lemma0
+    :: NList 'Zero a
+    -> NList m a
+    -> NList (Add 'Zero m) a :~: NList m a
+lemma0 NNil m = Refl
 
+lemma1
+    :: NList ('Succ n) a
+    -> NList m a
+    -> NList ('Succ (Add n m)) a :~: NList (Add n ('Succ m)) a
+lemma1 (NCons _ rest) l = case rest of
+  NNil      -> case lemma0 rest l of Refl -> Refl
+  NCons _ _ -> case lemma1 rest l of Refl -> Refl
 
---nappendLemma1 :: NList 'Zero a -> NList m a -> NList (Add 'Zero m) a :~: NList m a
---nappendLemma1 NNil m = Refl
---
---nappendLemma2
---  :: NList ('Succ n) a
---  -> NList m a
---  -> NList ('Succ (Add n m)) a :~: NList (Add n ('Succ m)) a
---nappendLemma2 (NCons _ rest) m =
---  case rest of
---    NNil      -> case nappendLemma1 rest m of Refl -> Refl
---    NCons _ _ -> case nappendLemma2 rest m of Refl -> Refl
 ----------------------------------------
 -- Exercise 2
 --

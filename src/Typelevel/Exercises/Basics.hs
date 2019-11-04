@@ -78,7 +78,6 @@ data Nat
   | Succ Nat
 
 type family Add (n :: Nat) (m :: Nat) :: Nat where
-  Add n 'Zero = n
   Add 'Zero m = m
   Add ('Succ n) m = 'Succ (Add n m)
 

@@ -12,7 +12,7 @@ import Data.Kind (Type, Constraint)
 import Data.Type.Equality ((:~:) (..))
 import GHC.TypeNats
 import Prelude hiding (Bool(..))
-import Typelevel.Basics hiding (Nat)
+import Typelevel.Exercises.Basics hiding (Nat)
 
 ----------------------------------------
 -- Exercise 1

@@ -27,6 +27,14 @@ And to enter ghci:
 $ stack ghci
 ```
 
+NixOS users can run:
+
+```
+$ nix-shell shell-nixos.nix
+nix-shell $ cabal repl #to enter ghci.
+nix-shell $ ghcid src/path/to/exercise # to compile an exercise using ghcid.
+```
+
 ## Workshop Description
 
 Haskell is known for being a pure, statically typed functional programming 

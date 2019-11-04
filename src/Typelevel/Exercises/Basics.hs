@@ -39,6 +39,8 @@ type (||) a b = Or a b
 --   Implement the type-level AND operation between two types of kind Bool
 ----------------------------------------
 type family And a b where
+  And 'True 'True = 'True
+  And _ _ = 'False
 
 
 -- | Type synonym using type operators
@@ -60,6 +62,8 @@ testAnd4 = Refl :: And 'False 'False :~: 'False
 --   type is 'True, and the 'b' type if the 'c' type is 'False
 ----------------------------------------
 type family IfThenElse c a b where
+  IfThenElse 'True a _ = a
+  IfThenElse 'False _ b = b
 
 testIfThenElse1 = Refl :: IfThenElse 'True Int Bool :~: Int
 testIfThenElse2 = Refl :: IfThenElse 'False Int Bool :~: Bool
@@ -88,6 +92,9 @@ type x + y = Add x y
 
 -- | Multiplication of type-level naturals
 type family Mult (x :: Nat) (y :: Nat) where
+  Mult ('Zero) m = 'Zero
+  Mult ('Succ 'Zero) m = m
+  Mult ('Succ n) m = Add m (Mult n m)
 
 type family (:*:) a b where
   x :*: y = Mult x y
@@ -104,6 +111,9 @@ testMult3 = Refl :: Mult Three Two :~: Six
 
 -- | Exponentiation of type-level naturals
 type family Exp (x :: Nat) (y :: Nat) :: Nat where
+  Exp n ('Zero) = 'Succ 'Zero
+  Exp m ('Succ 'Zero) = m
+  Exp m ('Succ n) = Mult m (Exp m n)
 
 type (^) x y = Exp x y
 

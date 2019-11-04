@@ -25,7 +25,7 @@ import Typelevel.Exercises.Basics hiding (Nat)
 data NList (n :: Nat) (a :: *) where
 
 -- Note: You will have to modify the type signature
-nappend :: NList n a -> NList m b -> Nlist o c
+nappend :: NList n a -> NList m b -> NList o c
 nappend = undefined
 
 ----------------------------------------

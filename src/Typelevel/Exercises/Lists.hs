@@ -10,9 +10,8 @@ module Typelevel.Exercises.Lists where
 
 import Data.Kind (Type, Constraint)
 import Data.Type.Equality ((:~:) (..))
-import GHC.TypeNats
 import Prelude hiding (Bool(..))
-import Typelevel.Basics hiding (Nat)
+import Typelevel.Exercises.Basics
 
 ----------------------------------------
 -- Exercise 1
@@ -23,10 +22,28 @@ import Typelevel.Basics hiding (Nat)
 ----------------------------------------
 
 data NList (n :: Nat) (a :: *) where
+  NNil :: NList 'Zero a
+  NCons :: a -> NList n a -> NList ('Succ n) a
 
 -- Note: You will have to modify the type signature
-nappend :: NList n a -> NList m b -> Nlist o c
-nappend = undefined
+nappend :: NList n a -> NList m a -> NList (Add n m) a
+nappend NNil l = l
+nappend m@(NCons a t) l = NCons a (nappend t l)
+
+
+lemma0
+    :: NList 'Zero a
+    -> NList m a
+    -> NList (Add 'Zero m) a :~: NList m a
+lemma0 NNil m = Refl
+
+lemma1
+    :: NList ('Succ n) a
+    -> NList m a
+    -> NList ('Succ (Add n m)) a :~: NList (Add n ('Succ m)) a
+lemma1 (NCons _ rest) l = case rest of
+  NNil      -> case lemma0 rest l of Refl -> Refl
+  NCons _ _ -> case lemma1 rest l of Refl -> Refl
 
 ----------------------------------------
 -- Exercise 2
@@ -35,6 +52,8 @@ nappend = undefined
 ----------------------------------------
 
 type family Append (xs :: [Type]) (ys :: [Type]) :: [Type] where
+  Append '[] ys = ys
+  Append (x ': xs) ys = x ': (Append xs ys)
 
 ----------------------------------------
 
@@ -70,6 +89,10 @@ data HList (a :: [*]) where
 --   Implement a 'Show' instance for the HList datatype
 ----------------------------------------
 
+-- !! reimplemented later
+--instance (Show h, Show (HList t)) => Show (HList (h ': t)) where
+--  show (HCons h t) = show h ++ show t
+
 ----------------------------------------
 -- Exercise 3
 --
@@ -79,10 +102,10 @@ data HList (a :: [*]) where
 ----------------------------------------
 
 hhead :: HList (x ': xs) -> x
-hhead = undefined
+hhead (HCons h t) = h
 
 htail :: HList (x ': xs) -> HList xs
-htail = undefined
+htail (HCons h t) = t
 
 ----------------------------------------
 
@@ -97,6 +120,9 @@ type family All (c :: k -> Constraint) (xs :: [k]) :: Constraint where
 --   family.
 ----------------------------------------
 
+instance (All Show t) => Show (HList t) where
+  show HNil = "HNil"
+  show (HCons a t) = "HCons " ++ show a ++ " " ++ show t
 ----------------------------------------
 -- Live Programming
 ----------------------------------------
@@ -112,7 +138,8 @@ type family All (c :: k -> Constraint) (xs :: [k]) :: Constraint where
 ----------------------------------------
 
 happend :: HList xs -> HList ys -> HList (Append xs ys)
-happend = undefined
+happend HNil b = b
+happend (HCons a t) b = HCons a (happend t b)
 
 ----------------------------------------
 -- Discussion Question:
